@@ -4,7 +4,7 @@
 /*
  * CodeIgniter Monolog Plus
  *
- * Version 1.4.2
+ * Version 1.4.3
  * (c) Josh Highland <JoshHighland@venntov.com>
  *
  * For the full copyright and license information, please view the LICENSE
@@ -74,7 +74,9 @@ class CI_Log
 		if ($this->config['introspection_processor'])
 		{
 			// add controller and line number info to each log message
-			$this->log->pushProcessor(new IntrospectionProcessor());
+			// 2 = depth in the stacktrace to ignore. This gives us the file
+			// making the call to log_message();
+			$this->log->pushProcessor(new IntrospectionProcessor(Logger::DEBUG, [], 2));
 		}
 
 		// decide which handler(s) to use

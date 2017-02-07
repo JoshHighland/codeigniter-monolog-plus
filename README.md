@@ -3,7 +3,7 @@ Codeigniter-Monolog-Plus
 
 Simple integration of the Monolog Package (https://github.com/Seldaek/monolog) into CodeIgniter by overwriting the CI_Log class.
 
-Based on https://github.com/pfote/Codeigniter-Monolog but updating to support Codeigniter 3, monolog ^1.22, and supporting file logging more akin to native CodeIgniter logging.
+Based on https://github.com/stevethomas/codeigniter-monolog but updating to support Codeigniter 3, monolog ^1.22, and supporting file logging more akin to native CodeIgniter logging.
 
 This library registers Monolog as the PHP error handler to catch all errors and adds support for IntrospectionProcessor for additional meta data.
 
@@ -23,5 +23,4 @@ Use log_message() as normal in CodeIgniter to log error, debug and info messages
 
 License
 -------
-
 codeigniter-monolog-plus is licensed under the MIT License - see the LICENSE file for details
