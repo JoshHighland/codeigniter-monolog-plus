@@ -47,8 +47,8 @@ $config['papertrail_port'] = ''; //port number
 $config['papertrail_multiline'] = TRUE; //add newlines to the output
 
 /* GELF OPTIONS */
-$monologConfig['gelf_host'] = ''; //xxxx.papertrailapp.com
-$monologConfig['gelf_port'] = ''; //port number
+$config['gelf_host'] = ''; //xxxx.papertrailapp.com
+$config['gelf_port'] = ''; //port number
 
 // exclusion list for pesky messages which you may wish to temporarily suppress with strpos() match
 $config['exclusion_list'] = array();
