@@ -7,9 +7,9 @@ Based on https://github.com/stevethomas/codeigniter-monolog but updating to supp
 
 This library registers Monolog as the PHP error handler to catch all errors and adds support for IntrospectionProcessor for additional meta data.
 
-Supports CI-File (native style Codeigniter errors), File (RotatingFileHandler), New Relic (NewRelicHandler), HipChat (HipChatHandler), stderr (for use with Heroku), and papertrail (log directly to papertrailapp.com)
+Supports CI-File (native style Codeigniter errors), File (RotatingFileHandler), New Relic (NewRelicHandler), HipChat (HipChatHandler), stderr (for use with Heroku), papertrail (log directly to papertrailapp.com), and graylog.org
 
-Support now included to milti-line output into logs
+Support now included to multi-line output into logs
 
 Installation
 ------------
