@@ -12,7 +12,7 @@
 
 
 /* GENERAL OPTIONS */
-$config['handlers'] = array('ci_file', 'file'); // valid handlers are ci_file | file | new_relic | hipchat | stderr | papertrail
+$config['handlers'] = array('ci_file', 'file'); // valid handlers are ci_file | file | new_relic | hipchat | stderr | papertrail | gelf
 $config['channel'] = ENVIRONMENT; // channel name which appears on each line of log
 $config['threshold'] = '1'; // 'ERROR' => '1', 'DEBUG' => '2',  'INFO' => '3', 'ALL' => '4'
 $config['introspection_processor'] = TRUE; // add some meta data such as controller and line number to log messages
@@ -45,6 +45,10 @@ $config['hipchat_app_loglevel'] = 'WARNING'; //The minimum logging level at whic
 $config['papertrail_host'] = ''; //xxxx.papertrailapp.com
 $config['papertrail_port'] = ''; //port number
 $config['papertrail_multiline'] = TRUE; //add newlines to the output
+
+/* GELF OPTIONS */
+$config['gelf_host'] = ''; //xxxx.papertrailapp.com
+$config['gelf_port'] = ''; //port number
 
 // exclusion list for pesky messages which you may wish to temporarily suppress with strpos() match
 $config['exclusion_list'] = array();

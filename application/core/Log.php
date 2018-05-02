@@ -21,6 +21,10 @@ use Monolog\Handler\StreamHandler;
 use Monolog\Handler\SyslogUdpHandler;
 use Monolog\Processor\IntrospectionProcessor;
 
+// Make sure to install graylog2/gelf-php - composer require graylog2/gelf-php
+use Gelf\Transport\UdpTransport;
+use Gelf\Publisher;
+
 
 /**
  *  replaces CI's Logger class, use Monolog instead
@@ -74,9 +78,7 @@ class CI_Log
 		if ($this->config['introspection_processor'])
 		{
 			// add controller and line number info to each log message
-			// 2 = depth in the stacktrace to ignore. This gives us the file
-			// making the call to log_message();
-			$this->log->pushProcessor(new IntrospectionProcessor(Logger::DEBUG, [], 2));
+			$this->log->pushProcessor(new IntrospectionProcessor());
 		}
 
 		// decide which handler(s) to use
@@ -86,13 +88,13 @@ class CI_Log
 			{
 				case 'file':
 					$handler = new RotatingFileHandler($this->config['file_logfile']);
-					$formatter = new LineFormatter(null, null, $config['file_multiline']);
+					$formatter = new LineFormatter(null, null, $this->config['file_multiline']);
 					$handler->setFormatter($formatter);
 					break;
 
 				case 'ci_file':
 					$handler = new RotatingFileHandler($this->config['ci_file_logfile']);
-					$formatter = new LineFormatter("%level_name% - %datetime% --> %message% %extra%\n", null, $config['ci_file_multiline']);
+					$formatter = new LineFormatter("%level_name% - %datetime% --> %message% %extra%\n", null, $this->config['ci_file_multiline']);
 					$handler->setFormatter($formatter);
 					break;
 
@@ -102,11 +104,11 @@ class CI_Log
 
 				case 'hipchat':
 					$handler = new HipChatHandler(
-						$config['hipchat_app_token'],
-						$config['hipchat_app_room_id'],
-						$config['hipchat_app_notification_name'],
-						$config['hipchat_app_notify'],
-						$config['hipchat_app_loglevel']
+						$this->config['hipchat_app_token'],
+						$this->config['hipchat_app_room_id'],
+						$this->config['hipchat_app_notification_name'],
+						$this->config['hipchat_app_notify'],
+						$this->config['hipchat_app_loglevel']
 					);
 					break;
 
@@ -116,9 +118,18 @@ class CI_Log
 
 				case 'papertrail':
 					$handler = new SyslogUdpHandler($this->config['papertrail_host'], $this->config['papertrail_port']);
-					$formatter = new LineFormatter("%channel%.%level_name%: %message% %extra%", null, $config['papertrail_multiline']);
+					$formatter = new LineFormatter("%channel%.%level_name%: %message% %extra%", null, $this->config['papertrail_multiline']);
 					$handler->setFormatter($formatter);
 					break;
+
+				case 'gelf':
+					$transport = new UdpTransport($this->config['gelf_host'], $this->config['gelf_port']);					
+					$publisher = new Publisher($transport);					
+					$formatter = new GelfMessageFormatter();
+					$handler = new GelfHandler($publisher);					
+					$handler->setFormatter($formatter);					
+					break;
+
 
 				default:
 					exit('log handler not supported: ' . $value . "\n");
